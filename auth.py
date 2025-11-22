@@ -4,8 +4,8 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
-from .database import get_session
-from .models import User
+from database import get_session
+from models import User
 
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"

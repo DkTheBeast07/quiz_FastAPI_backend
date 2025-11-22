@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from .database import init_db
-from .routes import users, questions, quiz
+from database import init_db
+from routes import users, questions, quiz
 
 app = FastAPI()
 
@@ -9,3 +9,7 @@ init_db()
 app.include_router(users.router)
 app.include_router(questions.router)
 app.include_router(quiz.router)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
