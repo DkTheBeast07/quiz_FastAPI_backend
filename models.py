@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional, List
 from pydantic import BaseModel
+from datetime import datetime
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -14,6 +15,20 @@ class Question(SQLModel, table=True):
     options: str
     correct_answer: str
 
+class QuizAttempt(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int
+    score: int
+    total_questions: int
+    attempted_at: datetime = Field(default_factory=datetime.utcnow)
+
+class AttemptAnswer(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    attempt_id: int
+    question_id: int
+    selected_option: str
+    is_correct: bool
+    attempted_at: datetime = Field(default_factory=datetime.utcnow)
 class Result(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int

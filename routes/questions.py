@@ -16,6 +16,7 @@ def create_question(question_data: QuestionCreate, session: Session = Depends(ge
         options=json.dumps(question_data.options), 
         correct_answer=question_data.correct_answer
     )
+
     session.add(q)
     session.commit()
     session.refresh(q)
@@ -27,6 +28,7 @@ def list_questions(session: Session = Depends(get_session), user=Depends(get_cur
         raise HTTPException(status_code=403, detail="Admins only")
     questions = session.exec(select(Question)).all()
     return [{"id": q.id, "text": q.text, "options": json.loads(q.options), "correct_answer": q.correct_answer} for q in questions]
+
 
 @router.get("/questions/{id}")
 def get_question(id: int, session: Session = Depends(get_session), user=Depends(get_current_user)):
@@ -49,6 +51,8 @@ def update_question(id: int, question_data: QuestionCreate, session: Session = D
     q.correct_answer = question_data.correct_answer
     session.add(q)
     session.commit()
+    print(q.options)
+    print("ghjk")
     session.refresh(q)
     return {"id": q.id, "text": q.text, "options": json.loads(q.options), "correct_answer": q.correct_answer}
 
